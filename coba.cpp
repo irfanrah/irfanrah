@@ -19,15 +19,17 @@ int main(int argc, char* argv[])
 	Canny( GaussianB, edge, 50, 150, 3);
 	edge.convertTo(draw, CV_8U);
 	// Select ROI
+	Gray.setTo(Scalar::all(0)); // fill gray hitam
 	Mat roiMuka = Gray( Rect(200,200,200,200) ); // rect(x,y,width,height)
-	roiMuka.setTo(Scalar::all(0)); // fill 
+	roiMuka.setTo(Scalar::all(255)); // fill muka putih
 	Gray.copyTo(Image2) ; // Duplicate
-	
 	Rect WhereRec(200, 200, roiMuka.cols, roiMuka.rows); // Posisi dan ukuran
 	roiMuka.copyTo(Gray(WhereRec)); // copy
 	
 	//Bitwise
-    bitwise_xor(draw,Gray,ROI); // Region Of Interest
+    bitwise_and(Gray,edge,ROI); // Region Of Interest
+    
+    
     
     // Muncul
 	namedWindow("hasil",CV_WINDOW_AUTOSIZE);
